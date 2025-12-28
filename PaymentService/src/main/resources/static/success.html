@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Successful</title>
+  <style>
+    body { text-align: center; padding: 50px; font-family: Arial; }
+    h2 { color: green; }
+    .loading { color: #0070ba; }
+  </style>
+</head>
+<body>
+  <h2 id="status" class="loading">⏳ Processing your payment...</h2>
+  <div id="details"></div>
+  <a href="index.html">⬅ Go Back</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get("paymentId");
+    const payerId = params.get("PayerID");
+
+    if (paymentId && payerId) {
+      fetch("http://localhost:8085/paymentService/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId: paymentId, payerId: payerId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("status").innerHTML = "✅ Payment Approved!";
+        document.getElementById("status").className = "";
+        document.getElementById("details").innerHTML = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      })
+      .catch(err => {
+        document.getElementById("status").innerHTML = "❌ Error Executing Payment";
+        document.getElementById("details").innerHTML = err;
+      });
+    } else {
+      document.getElementById("status").innerHTML = "❌ Missing Payment Info in URL!";
+    }
+  </script>
+</body>
+</html>
