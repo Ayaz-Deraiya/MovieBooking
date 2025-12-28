@@ -151,10 +151,6 @@ REST API best practices
 
 ☁️ Cloud-based Image Service for storing and serving movie posters
 
-🌐 API Gateway (Spring Cloud Gateway)
-
-🔍 Service Discovery (Eureka)
-
 📊 Distributed tracing and monitoring
 
 ## 👨‍💻 Author
